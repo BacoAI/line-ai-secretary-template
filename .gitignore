@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.wrangler/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+.dev.vars
+
+# 本機真實部署設定(含你自己的 account / D1 / KV id + Notion 頁 id + 個人化值)— 不進版控、不外洩。
+# 擁有者部署 prod 用:npm run deploy:prod(讀此檔,帶 -c wrangler.prod.toml)。
+# 公開範本給買家的是 committed 的 wrangler.jsonc(Deploy 按鈕讀它)。
+wrangler.prod.toml
+wrangler.toml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Cache
+.cache/
+.parcel-cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Drizzle
+drizzle/
+
+# Playwright MCP 暫存頁面快照(測試用,不進版控)
+.playwright-mcp/
+
+# Secrets (just in case)
+secrets.json
+credentials.json

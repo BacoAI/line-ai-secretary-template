@@ -1,0 +1,58 @@
+{
+  // ────────────────────────────────────────────────────────────────
+  //  公開範本設定 — 給「Deploy to Cloudflare(一鍵部署)」按鈕讀。
+  //
+  //  買家點按鈕 → Cloudflare 自動:在「買家自己的帳號」provision 全新 D1 + KV、
+  //  把新 id 改寫進這份設定、部署 worker。下面的 database_id / kv id 是「拋棄式假值」,
+  //  只是佔位讓部署成功,按鈕會覆寫成買家自己的;買家不會連到這些 id。
+  //
+  //  ⚠ 開發者(擁有者)本人「不要」用這份部署 prod —— 你的真 id 在 gitignored 的
+  //     wrangler.prod.toml,請用  npm run deploy:prod (帶 -c wrangler.prod.toml)。
+  // ────────────────────────────────────────────────────────────────
+
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "line-ai-secretary-bot",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // account_id 刻意不寫 → 按鈕用「買家自己的」Cloudflare 帳號。
+
+  // 排程推播(每分鐘:提醒 / 早晚安)
+  "triggers": {
+    "crons": ["* * * * *"]
+  },
+
+  // D1 資料庫 — database_id 為拋棄式假值,按鈕會 provision 新 D1 並改寫此 id
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "line-ai-secretary",
+      "database_id": "9c4f8e21-1b3a-4d5e-8f60-2a7c9d0e1b34",
+      "migrations_dir": "db/migrations"
+    }
+  ],
+
+  // KV 快取 / session — id 為拋棄式假值,按鈕會 provision 新 KV 並改寫
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "a1b2c3d4e5f60718293a4b5c6d7e8f90"
+    }
+  ],
+
+  // Workers AI(語音轉文字 Whisper)— 無 id
+  "ai": {
+    "binding": "AI"
+  },
+
+  // 公開設定值。密鑰(LINE / Anthropic / Notion token)不放這裡 —— 買家部署後
+  // 開 /setup 頁貼上,存進「買家自己的 D1」。
+  "vars": {
+    "ENABLE_SETUP": "1",
+    "TIMEZONE": "Asia/Taipei",
+    "STORAGE_MODE": "internal",
+    "MONTHLY_BUDGET_USD": "32",
+    "LOOP_DETECTION_THRESHOLD": "10",
+    "SINGLE_TASK_CONFIRMATION_USD": "0.2"
+  }
+}

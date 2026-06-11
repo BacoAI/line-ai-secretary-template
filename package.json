@@ -1,0 +1,43 @@
+{
+  "name": "line-ai-secretary",
+  "version": "0.2.0",
+  "description": "Personal LINE AI Secretary - 主動式 AI 工作助理(免費版)",
+  "private": true,
+  "type": "module",
+  "cloudflare": {
+    "bindings": {
+      "SETUP_TOKEN": {
+        "description": "安裝權杖:自己想一串至少 12 碼的亂碼(像密碼),**先記下來**。部署完成後第一次打開 `/setup` 設定頁時要輸入同一串,防止別人搶先接管你的 bot。"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:prod": "wrangler dev -c wrangler.prod.toml",
+    "deploy": "wrangler deploy",
+    "deploy:prod": "wrangler deploy -c wrangler.prod.toml",
+    "tail": "wrangler tail",
+    "tail:prod": "wrangler tail -c wrangler.prod.toml",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply DB --remote",
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote -c wrangler.prod.toml",
+    "db:studio": "drizzle-kit studio",
+    "typecheck": "tsc --noEmit",
+    "template:check": "scripts/template-check.sh"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "9.5.2",
+    "@notionhq/client": "3.0.1",
+    "@anthropic-ai/sdk": "0.32.1",
+    "hono": "4.6.14",
+    "zod": "3.24.1",
+    "drizzle-orm": "0.38.3"
+  },
+  "devDependencies": {
+    "wrangler": "3.99.0",
+    "drizzle-kit": "0.30.1",
+    "typescript": "5.7.2",
+    "@types/node": "22.10.5",
+    "@cloudflare/workers-types": "4.20241224.0"
+  }
+}
